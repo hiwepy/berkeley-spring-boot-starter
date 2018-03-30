@@ -49,7 +49,7 @@ public class BerkeleyTest {
     /* Employer accessors */
     PrimaryIndex<Long, Employer> employerById;
     SecondaryIndex<String, Long, Employer> employerByName;
-
+    EnvironmentConfig
     /* Person accessors */
     PrimaryIndex<String, Person> personBySsn;
     SecondaryIndex<String, String, Person> personByParentSsn;
