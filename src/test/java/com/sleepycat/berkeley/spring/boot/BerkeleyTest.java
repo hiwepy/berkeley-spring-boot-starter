@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, vindell (hnxyhcwdl1003@163.com).
+ * Copyright (c) 2018, vindell (https://github.com/vindell).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,13 +20,13 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jeefw.io.utils.IOUtils;
 import com.sleepycat.je.CursorConfig;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
@@ -49,7 +49,7 @@ public class BerkeleyTest {
     /* Employer accessors */
     PrimaryIndex<Long, Employer> employerById;
     SecondaryIndex<String, Long, Employer> employerByName;
-    EnvironmentConfig
+    
     /* Person accessors */
     PrimaryIndex<String, Person> personBySsn;
     SecondaryIndex<String, String, Person> personByParentSsn;
