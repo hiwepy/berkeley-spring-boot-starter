@@ -15,79 +15,21 @@
  */
 package com.sleepycat.berkeley.spring.boot;
 
-import java.io.File;
-
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.sleepycat.je.DatabaseConfig;
 
 @ConfigurationProperties(BerkeleyProperties.PREFIX)
+@Data
 public class BerkeleyProperties extends DatabaseConfig  {
 
 	public static final String PREFIX = "berkeley.db";
 
-	/**
-	 * Enable Berkeley DB.
-	 */
-	private boolean enabled = false;
-	
-	
 	private String homeDir; //是数据库存放的目录
 	private String envHome;
 	private String envDir = "dbEnv";//用户指定目录，存放数据文件和日志文件
 	private String databaseName = "tt";//数据库名称
 	private String catalogDatabaseName = "tt";//数据库名称
-    
-
-	public String getHomeDir() {
-		return homeDir;
-	}
-
-	public void setHomeDir(String homeDir) {
-		this.homeDir = homeDir;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public String getEnvDir() {
-		return envDir;
-	}
-
-	public void setEnvDir(String envDir) {
-		this.envDir = envDir;
-	}
-
-	public String getDatabaseName() {
-		return databaseName;
-	}
-
-	public void setDatabaseName(String databaseName) {
-		this.databaseName = databaseName;
-	}
-
-	public String getCatalogDatabaseName() {
-		return catalogDatabaseName;
-	}
-
-	public void setCatalogDatabaseName(String catalogDatabaseName) {
-		this.catalogDatabaseName = catalogDatabaseName;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public String getEnvHome() {
-		return envHome;
-	}
-
-	public void setEnvHome(String envHome) {
-		this.envHome = envHome;
-	}
-	
-	
-	
 
 }
