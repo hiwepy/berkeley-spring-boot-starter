@@ -1,59 +1,168 @@
-#Berkeley DB Java Edition使用说明
+<a id="readme-top"></a>
 
-#一、简介
-Berkeley DB Java Edition (JE)是一个完全用JAVA写的，它适合于管理海量的，简单的数据。
-1、能够高效率的处理1到1百万条记录，制约JE数据库的往往是硬件系统,而不是JE本身。
-2、多线程支持，JE使用超时的方式来处理线程间的死琐问题。
-3、Database都采用简单的key/value对应的形式。
-4、事务支持。
-5、 允许创建二级库。这样我们就可以方便的使用一级key,二级key来访问我们的数据。
-6、支持RAM缓冲，这样就能减少频繁的IO操作。
-7、支持日志。
-8、数据备份和恢复。
-9、游标支持。
+<div align="center">
 
-#二、获取JE
-JE下载地址：
-http://www.oracle.com/technology/software/products/berkeley-db/je/index.html
-解开包后 把JE_HOME/lib/je-<version>.jar 中的jar文件添加到你的环境变量中就可以使用je了。
-相关帮助文档可以参考 JE_HOME/docs/index.html
-源代码见JE_HOME/src/*.*
+# berkeley-spring-boot-starter
 
-#三、JE常见的异常
+**Spring Boot Starter for berkeley**
 
-DatabaseNotFoundException 当没有找到指定的数据库的时候会返回这个异常
-DeadlockException 线程间死锁异常
-RunRecoveryException 回收异常，当发生此异常的时候，你必须得重新打开环境变量。
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.easy4j/berkeley-spring-boot-starter)](https://github.com/easy-4-java/berkeley-spring-boot-starter)
+[![Java](https://img.shields.io/badge/Java-17-orange)](#3-requirements-and-compatibility)
+[![License](https://img.shields.io/badge/license-Apache-2.0-green)](https://www.apache.org/licenses/LICENSE-2.0)
 
-#四、关于日志文件必须了解的六项
+[简体中文](./README.zh-CN.md) | [English](./README.md)
 
-JE的日志文件跟其他的数据库的日志文件不太一样，跟C版的DBD也是有区别的
-1、JE的日志文件只能APPEND，第一个日志文件名是 00000000.jdb，当他增长到一定大小的时候(默认是10M)，开始写第二个日志文件00000001.jdb，已此类推。
-2、跟C版本有所不同，JE的数据日志和事务日志是放在一起的，而不是分开放的。
-3、E cleaner负责清扫没用到的磁盘空间，删除后，或者更新后新的记录会追加进来，而原有的记录空间就不在使用了，cleaner负责清理不用的空间。
-4、清理并不是立即进行的，当你关闭你的数据库环境后，通过调用一个cleaner方法来清理。
-5、清理也不是只动执行的，需要你自己手动调用cleaner 方法来定时清理的。
-6、 日志文件的删除仅发生在检查点之后。cleaner准备出哪些log 文件需要被删除，当检查点过后，删掉一些不在被使用的文件。每写20M的日志文件就执行一次检查点，默认下。
+[Positioning](#1-positioning) · [Capabilities](#2-core-capabilities) ·
+[Dependency](#5-dependency) · [Quick Start](#6-quick-start) ·
+[Configuration](#7-configuration-reference) · [Versions](#9-version-lines-and-compatibility) ·
+[Build](#10-build-and-test) · [License](#12-license)
 
-#五、创建数据库环境
+</div>
 
-JE要求在任何DATABASE操作前，要先打开数据库环境，就像我们要使用数据库的话必须得先建立连接一样。你可以通过数据库环境来创建和打开database，或者更改database名称和删除database.
-可以通过Environments对象来打开环境，打开环境的时候设置的目录必须是已经存在的目录，否则会出错误。默认情况下，如果指定的database不存在则不会自动创建一个新的detabase,但可以通过设置setAllowCreate来改变这一情况。
-...
-更多参见：http://blog.csdn.net/muyannian/article/details/1723971
+---
 
+> **Current Version**：`4.0.x.20260527-SNAPSHOT`<br>
+> **JDK Baseline**：`17`<br>
+> **Group ID**：`io.github.easy4j`<br>
+> **Artifact ID**：`berkeley-spring-boot-starter`<br>
+> **License**：Apache License 2.0<br>
 
-#Maven依赖
-=======================================================
+## 1. Positioning
 
-<!-- https://mvnrepository.com/artifact/com.sleepycat/je -->
+**berkeley-spring-boot-starter** is a Spring Boot starter that integrates **berkeley** for applications using berkeley. It provides auto-configuration, property binding, and ready-to-use beans so that applications can consume berkeley capabilities with minimal setup.
+
+| Dimension | Description |
+|---|---|
+| Type | Spring Boot Starter |
+| Consumers | Spring Boot applications using berkeley |
+| Core Capabilities | auto-configuration, property binding, ready-to-use beans for berkeley |
+| JDK | `17` |
+| Coordinates | `io.github.easy4j:berkeley-spring-boot-starter:4.0.x.20260527-SNAPSHOT` |
+| Config Prefix | `berkeley` |
+
+## 2. Core Capabilities
+
+| Capability | Status | Description |
+|---|:---:|---|
+| Auto-configuration | ✅ Stable | Registers berkeley beans automatically |
+| Property Binding | ✅ Stable | Binds `berkeley.*` to `BerkeleyProperties` |
+| Ready-to-use beans | ✅ Stable | Auto-registered via BerkeleyAutoConfiguration |
+
+## 3. Requirements and Compatibility
+
+| Dependency | Minimum | Evidence |
+|---|---:|---|
+| JDK | `17` | `pom.xml` |
+| Spring Boot | `4.0.1` | `pom.xml` parent |
+| Maven | `3.6+` | Maven Enforcer |
+
+## 4. Auto-configuration
+
+The starter auto-configures the following beans:
+
+| Bean | Condition | Missing Behavior |
+|---|---|---|
+| `Object` | classpath + property | not created |
+
+Auto-configuration registration:
+
+- `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` (Spring Boot 2.7+ / 3.x / 4.x)
+- `META-INF/spring.factories` (Spring Boot 2.x legacy)
+
+## 5. Dependency
+
+```xml
 <dependency>
-    <groupId>com.sleepycat</groupId>
-    <artifactId>je</artifactId>
-    <version>5.0.84</version>
+    <groupId>io.github.easy4j</groupId>
+    <artifactId>berkeley-spring-boot-starter</artifactId>
+    <version>4.0.x.20260527-SNAPSHOT</version>
 </dependency>
+```
 
+No additional easy4j component dependencies.
 
-https://blog.csdn.net/woaigaolaoshi/article/details/51181165
-   
-    
+## 6. Quick Start
+
+### 6.1 Add dependency
+
+Add the dependency above to your `pom.xml`.
+
+### 6.2 Configure
+
+```yaml
+berkeley:
+  enabled: true
+```
+
+### 6.3 Use the bean
+
+```java
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+Then inject the auto-configured bean in your code:
+
+```java
+@Autowired
+private Object bean;
+```
+
+## 7. Configuration Reference
+
+### 7.1 Config Prefix
+
+`berkeley`
+
+### 7.2 Configuration Items
+
+| Property | Type | Default | Required | Description | Sensitive |
+|---|---|---|:---:|---|:---:|
+| `berkeley.enabled` | boolean | `true` | No | Enable the starter | No |
+<!-- additional properties below -->
+
+## 8. Version Lines and Compatibility
+
+| Branch | JDK | Spring Boot | Component Version | Status |
+|---|---:|---:|---|:---:|
+| `2.3.x` / `2.7.x` | `8+` | 2.3.x / 2.7.x | `1.0.x` | Maintenance |
+| `3.0.x` ~ `3.5.x` | `17` | 3.x | `2.0.x` | Maintenance |
+| `4.0.x` / `4.1.x` | `17+` | 4.x | `3.0.x` | Active |
+
+## 9. Build and Test
+
+```bash
+mvn clean verify
+mvn -pl berkeley-spring-boot-starter -am test
+```
+
+## 10. Troubleshooting
+
+| Symptom | Diagnosis | Resolution |
+|---|---|---|
+| Bean not created | Check auto-configuration report | Verify `berkeley.enabled=true` and classpath |
+| `ClassNotFoundException` | Missing dependency | Add the required module |
+| Version conflict | `mvn dependency:tree` | Use BOM for version alignment |
+
+## 11. Contribution
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Run `mvn clean verify` before submitting.
+4. Submit a pull request.
+
+## 12. License
+
+This project is licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+---
+
+<div align="center">
+
+[Back to top](#readme-top) · [Issues](https://github.com/easy-4-java/berkeley-spring-boot-starter/issues) · [Repository](https://github.com/easy-4-java/berkeley-spring-boot-starter)
+
+</div>
