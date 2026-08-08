@@ -11,16 +11,32 @@ import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.OperationStatus;
 
-public class Cursor {   
-    private EnvironmentConfig envConfig = null;//数据库环境配置对象
-    private Environment myDbEnvironment = null;//数据库环境对象
-    private DatabaseConfig dbConfig = null;//数据库配置对象
-    private Database myDatabase = null;//数据库对象
-    private com.sleepycat.je.Cursor myCursor = null; 
-    private String envDir = "dbEnv";//用户指定目录，存放数据文件和日志文件
-    private String dbName = "tt";//数据库名称
+/**
+ * Standalone example demonstrating common Berkeley DB cursor operations such as
+ * iterating, searching, adding, deleting and updating records through a cursor.
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
+ */
+public class Cursor {
+    /** Database environment configuration. */
+    private EnvironmentConfig envConfig = null;
+    /** Database environment instance. */
+    private Environment myDbEnvironment = null;
+    /** Database configuration. */
+    private DatabaseConfig dbConfig = null;
+    /** Database instance. */
+    private Database myDatabase = null;
+    /** Underlying Berkeley DB cursor. */
+    private com.sleepycat.je.Cursor myCursor = null;
+    /** User-defined directory holding the data and log files. */
+    private String envDir = "dbEnv";
+    /** Name of the database. */
+    private String dbName = "tt";
 
-    //配置创建环境对象
+    /**
+     * Configures and opens the Berkeley DB environment.
+     */
     public void configEnvironment(){
         envConfig = new EnvironmentConfig();
         envConfig.setAllowCreate(true);//如果设置了true则表示当数据库环境不存在时候重新创建一个数据库环境，默认为false.
@@ -29,8 +45,10 @@ public class Cursor {
         myDbEnvironment = new Environment(new File(envDir), envConfig);
     }
 
-    //配置创建完环境对象后，可以用它创建数据库并打开游标
-    public void createDatabase(){   
+    /**
+     * Creates the database within the current environment and opens a cursor over it.
+     */
+    public void createDatabase(){
         dbConfig = new DatabaseConfig();
         dbConfig.setAllowCreate(true);//如果设置了true则表示当数据库不存在时候重新创建一个数据库，默认为false.
         dbConfig.setTransactional(false);//事务支持,如果为true，则表示当前数据库支持事务处理，默认为false，不支持事务处理。
@@ -40,7 +58,10 @@ public class Cursor {
         myCursor = myDatabase.openCursor(null, null);  
     }
 
-    //用cursor遍历
+    /**
+     * Iterates all records in the database using the cursor and prints each key/value.
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public void getAllByCursor() throws UnsupportedEncodingException{
         DatabaseEntry databaseKey = new DatabaseEntry();          
         DatabaseEntry databaseValue = new DatabaseEntry();
@@ -59,7 +80,12 @@ public class Cursor {
         }
     }
 
-    //用游标搜索数据
+    /**
+     * Searches for a record matching both the given key and value using the cursor.
+     * @param key the key to search for
+     * @param value the value to search for
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public void searchByCursor(String key, String value) throws UnsupportedEncodingException{
         //Cursor.getSearchKey()通过key的方式检索，使用后游标指针将移动到跟当前key匹配的第一项。  
         //Cursor.getSearchKeyRange()把游标移动到大于或等于查询的key的第一个匹配key,大小比较是通过你设置的比较器来完成的，如果没有设置则使用默认的比较器。  
@@ -80,7 +106,11 @@ public class Cursor {
 
     }
 
-    //使用游标定义多重记录
+    /**
+     * Uses the cursor to iterate the multiple values associated with a single key.
+     * @param key the key whose duplicate values should be iterated
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public void searchMultipleByCursor(String key) throws UnsupportedEncodingException{
         //如果你的库支持多重记录，你可以使用游标来遍历一个key下的多个data.  
         //Cursor.getNext(), Cursor.getPrev()获取上一条记录或下一条记录  
@@ -104,7 +134,12 @@ public class Cursor {
 
     }
 
-    //通过游标添加数据
+    /**
+     * Adds a new record at the cursor's current position.
+     * @param key the record key
+     * @param value the record value
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public void addDataByCursor(String key, String value) throws UnsupportedEncodingException{
         DatabaseEntry databaseKey = new DatabaseEntry(key.getBytes("UTF-8"));             
         DatabaseEntry databaseValue = new DatabaseEntry(value.getBytes("UTF-8")); 
@@ -116,7 +151,11 @@ public class Cursor {
             System.out.println("insert fail");
     }
 
-    //使用游标删除记录
+    /**
+     * Deletes the single record identified by the given key via the cursor.
+     * @param key the record key to delete
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public void deleteDataByCursor(String key) throws UnsupportedEncodingException{
         DatabaseEntry databaseKey = new DatabaseEntry(key.getBytes("UTF-8"));         
         DatabaseEntry databaseValue = new DatabaseEntry();                        
@@ -127,7 +166,11 @@ public class Cursor {
         }
     }
 
-    //修改游标当前位置所在的值
+    /**
+     * Replaces the value at the cursor's current position with a fixed replacement.
+     * @param key the key used to position the cursor
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public void changeCursor(String key) throws UnsupportedEncodingException{
         //可以通过Cursor.putCurrent()方法来修改，这个方法只有一个参数就是将要修改的值。这个方法不能用在多重记录
         DatabaseEntry databaseKey = new DatabaseEntry(key.getBytes("UTF-8"));
@@ -139,7 +182,9 @@ public class Cursor {
 
 
     }
-    //关闭数据库及游标
+    /**
+     * Closes the cursor, database and environment, releasing all held resources.
+     */
     public void closeDatabase(){
         if(myCursor != null) {                
             myCursor.close();     
@@ -155,6 +200,11 @@ public class Cursor {
     }
 
 
+    /**
+     * Runs a small end-to-end demonstration of the cursor operations.
+     * @param args command-line arguments, ignored
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public static void main(String[] args) throws UnsupportedEncodingException{
         Cursor cursor = new Cursor();
         cursor.configEnvironment();

@@ -20,16 +20,31 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.sleepycat.je.DatabaseConfig;
 
+/**
+ * Configuration properties for the Berkeley DB (JE) integration, bound under the
+ * {@value #PREFIX} prefix.
+ * <p>Extends {@link DatabaseConfig} so that database-level options inherit directly
+ * from the bound configuration.</p>
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
+ */
 @ConfigurationProperties(BerkeleyProperties.PREFIX)
 @Data
 public class BerkeleyProperties extends DatabaseConfig  {
 
+	/** Configuration property prefix for Berkeley DB options. */
 	public static final String PREFIX = "berkeley.db";
 
-	private String homeDir; //是数据库存放的目录
+	/** Directory where the database files are stored. */
+	private String homeDir;
+	/** Location of the Berkeley DB environment home. */
 	private String envHome;
-	private String envDir = "dbEnv";//用户指定目录，存放数据文件和日志文件
-	private String databaseName = "tt";//数据库名称
-	private String catalogDatabaseName = "tt";//数据库名称
+	/** User-defined directory holding the data and log files. */
+	private String envDir = "dbEnv";
+	/** Name of the main database. */
+	private String databaseName = "tt";
+	/** Name of the class catalog database. */
+	private String catalogDatabaseName = "tt";
 
 }

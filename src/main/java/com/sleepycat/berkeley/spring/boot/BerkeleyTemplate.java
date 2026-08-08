@@ -18,14 +18,27 @@ import com.sleepycat.je.OperationStatus;
 import com.sleepycat.je.Transaction;
 import com.sleepycat.je.TransactionConfig;
 
+/**
+ * Template simplifying common Berkeley DB (JE) key/value operations such as writing,
+ * reading, deleting and iterating records within a managed environment.
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
+ */
 public class BerkeleyTemplate {
 
 	@Autowired
 	private Database myDatabase;
 	@Autowired
 	private Environment myDbEnvironment;
-	
-	//像数据库中写数据
+
+	/**
+	 * Writes a key/value pair into the database, optionally overwriting an existing
+	 * value for the same key.
+	 * @param key the record key
+	 * @param value the record value
+	 * @param isOverwrite whether to overwrite when the key already exists
+	 */
     public void writeToDatabase(String key, String value, boolean isOverwrite){
         try {
             //JE的记录包含两部分，key键值和value数据值，这两个值都是通过DatabaseEntry对象封装起来的
@@ -64,7 +77,11 @@ public class BerkeleyTemplate {
         }
     }
 
-    //遍历数据库中数据
+    /**
+     * Iterates all records in the database and returns their keys.
+     * @return the list of record keys
+     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
+     */
     public ArrayList<String> getAllFromDatabase() throws UnsupportedEncodingException{
         Cursor myCursor = null;//游标
         ArrayList<String> resultList = new ArrayList<String>();
@@ -95,7 +112,11 @@ public class BerkeleyTemplate {
          txn.commit();
          return resultList;
     }
-    //从数据库读取相应键值的数据
+    /**
+     * Reads the value associated with the given key from the database.
+     * @param key the record key to look up
+     * @return the stored value, or an empty string when not found
+     */
     public String readFromDatabase(String key){
         try {
             DatabaseEntry databaseKey = new DatabaseEntry(key.trim().getBytes("utf8"));
@@ -124,7 +145,10 @@ public class BerkeleyTemplate {
 
     }
 
-    //删除数据库中一条数据
+    /**
+     * Deletes the record identified by the given key from the database.
+     * @param key the record key to delete
+     */
     public void deleteFromDatabase(String key){
         Transaction txn = null;
 
@@ -150,7 +174,10 @@ public class BerkeleyTemplate {
             System.out.println("delete fail");
     }
 
-    //一些其他方法
+    /**
+     * Demonstrates miscellaneous database management operations such as retrieving the
+     * database name, listing databases, renaming, removing and truncating.
+     */
     public void otherMethod(){
         String databaseName = myDatabase.getDatabaseName();//数据库名字
         System.out.println("databaseName : " + databaseName);
@@ -171,6 +198,11 @@ public class BerkeleyTemplate {
 
     }
     
+    /**
+     * Writes a primitive (tuple-bound) value into the database using a tuple binding.
+     * @param key the record key
+     * @param value the value to store
+     */
     @SuppressWarnings("unchecked")
     public void writePrimitiveDatabase(String key, String value){
         try {
@@ -187,6 +219,10 @@ public class BerkeleyTemplate {
         }
     }
 
+    /**
+     * Reads and prints the primitive (tuple-bound) value associated with the given key.
+     * @param key the record key to look up
+     */
     public void readPrimitiveDatabase(String key){
         try {
             DatabaseEntry databaseKey = new DatabaseEntry(key.trim().getBytes("utf8"));
@@ -208,10 +244,18 @@ public class BerkeleyTemplate {
     }
     
 	
+	/**
+	 * Returns the underlying database.
+	 * @return the database
+	 */
 	public Database getDatabase() {
 		return myDatabase;
 	}
 
+	/**
+	 * Sets the underlying database.
+	 * @param database the database to use
+	 */
 	public void setDatabase(Database database) {
 		this.myDatabase = database;
 	}

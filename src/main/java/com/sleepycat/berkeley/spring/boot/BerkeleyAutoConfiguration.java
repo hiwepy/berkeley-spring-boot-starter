@@ -22,14 +22,19 @@ import com.sleepycat.je.dbi.RepConfigProxy;
 import com.sleepycat.je.rep.RepInternal;
 import com.sleepycat.je.rep.ReplicationConfig;
 
+/**
+ * Spring Boot auto-configuration for the Berkeley DB (JE) embedded key/value store.
+ * <p>Berkeley DB is an embedded database suited to managing very large volumes (up to
+ * 256&nbsp;TB) of simple data. Records are stored and managed as key/value pairs where
+ * keys may be duplicated and values may be of arbitrary type; the underlying storage is
+ * implemented with B+ trees or similar algorithms.</p>
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
+ */
 @Configuration
 @ConditionalOnProperty(prefix = BerkeleyProperties.PREFIX, value = "enabled", havingValue = "true")
 @EnableConfigurationProperties({ BerkeleyProperties.class })
-/**
- * @see https://blog.csdn.net/u012150792/article/details/53446205
- * Berkeley DB 是一个嵌入式数据库，它适合于管理海量的(256T)、简单的数据。
- * BDB是以键值对(value/key)来存储和管理数据库的。键可以重复，数据值可以是任意类型的。BDB的底层是用B+树或者其他算法实现的。
- */
 public class BerkeleyAutoConfiguration implements InitializingBean, ResourceLoaderAware {
 
 	@Autowired
@@ -37,7 +42,10 @@ public class BerkeleyAutoConfiguration implements InitializingBean, ResourceLoad
 
 	private ResourceLoader resourceLoader;
 
-	// 配置创建环境对象
+	/**
+	 * Builds the Berkeley DB environment configuration from the bound properties.
+	 * @return the configured environment configuration
+	 */
     public EnvironmentConfig configEnvironment(){
 
     	EnvironmentConfig envConfig = new EnvironmentConfig();
@@ -50,11 +58,24 @@ public class BerkeleyAutoConfiguration implements InitializingBean, ResourceLoad
         return envConfig;
     }
 
+    /**
+     * Creates a default replication configuration proxy.
+     * @return a new replication configuration proxy
+     */
     public RepConfigProxy repConfigProxy(){
     	return new ReplicationConfig();
     }
 
-    //创建Environment
+    /**
+     * Creates the Berkeley DB {@link Environment} using the resolved environment home
+     * resource together with the supplied environment and replication configurations.
+     * @param repConfig the replication configuration
+     * @param envConfig the environment configuration
+     * @param repConfigProxy the replication configuration proxy
+     * @return the created database environment
+     * @throws DatabaseException if the environment cannot be opened
+     * @throws IOException if the environment home cannot be resolved
+     */
     public Environment environment(ReplicationConfig repConfig,EnvironmentConfig envConfig, RepConfigProxy repConfigProxy) throws DatabaseException, IOException{
 
     	Resource resource = resourceLoader.getResource(properties.getEnvHome());
@@ -69,15 +90,25 @@ public class BerkeleyAutoConfiguration implements InitializingBean, ResourceLoad
 
     }
 
-    protected StoredClassCatalog catalog;//catalog
-    protected Database database;//database
-    private static final String CLASS_CATALOG="java_class_catalog";//数据库名
-    protected Database catalogDatabase;//catalog存放处
+    /** Class catalog used for serialised object storage. */
+    protected StoredClassCatalog catalog;
+    /** The main Berkeley DB database. */
+    protected Database database;
+    /** Name of the class catalog database. */
+    private static final String CLASS_CATALOG="java_class_catalog";
+    /** Database used to store the class catalog. */
+    protected Database catalogDatabase;
 
 
 
 
 
+    /**
+     * Opens the class catalog database used to store Java class metadata for
+     * serialised bindings.
+     * @param myDbEnvironment the database environment to open within
+     * @return the opened catalog database
+     */
     public Database catalogDatabase(Environment myDbEnvironment){
 
     	//配置创建完环境对象后，可以用它创建数据库
@@ -100,13 +131,20 @@ public class BerkeleyAutoConfiguration implements InitializingBean, ResourceLoad
 
     }
 
-    // Open Catalog
+    /**
+     * Opens the stored class catalog backed by the catalog database.
+     * @return the stored class catalog
+     */
     public StoredClassCatalog catalog(){
     	return new StoredClassCatalog(catalogDatabase);
     }
 
 
-    //Open Database
+    /**
+     * Opens the main Berkeley DB database within the given environment.
+     * @param myDbEnvironment the database environment to open within
+     * @return the opened database
+     */
     public Database berkeleyDatabase(Environment myDbEnvironment){
 
     	//配置创建完环境对象后，可以用它创建数据库
@@ -130,9 +168,16 @@ public class BerkeleyAutoConfiguration implements InitializingBean, ResourceLoad
 
     }
 
+    /** The main database instance. */
     Database myDatabase;
+    /** The database environment instance. */
     Environment myDbEnvironment;
 
+	/**
+	 * Registers a JVM shutdown hook that cleanly closes the database, class catalog and
+	 * environment when the application exits.
+	 * @throws Exception if the shutdown hook cannot be registered
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
@@ -145,6 +190,10 @@ public class BerkeleyAutoConfiguration implements InitializingBean, ResourceLoad
 
 	}
 
+	/**
+	 * Sets the resource loader used to resolve the environment home location.
+	 * @param resourceLoader the resource loader
+	 */
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
