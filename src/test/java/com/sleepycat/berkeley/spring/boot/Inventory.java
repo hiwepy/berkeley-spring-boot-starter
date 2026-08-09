@@ -15,10 +15,18 @@
  */
 package com.sleepycat.berkeley.spring.boot;
 
+import com.sleepycat.persist.model.Entity;
+import com.sleepycat.persist.model.PrimaryKey;
+import com.sleepycat.persist.model.SecondaryKey;
+import com.sleepycat.persist.model.Relationship;
+
+@Entity
 public class Inventory {
 
-	protected String itemName;
+	@PrimaryKey
 	protected String sku;
+	@SecondaryKey(relate = Relationship.MANY_TO_ONE)
+	protected String itemName;
 	protected float vendorPrice;
 	protected int vendorInventory;
 	protected String category;

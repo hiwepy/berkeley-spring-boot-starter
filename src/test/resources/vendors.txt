@@ -1,0 +1,3 @@
+Acme Corp#123 Main St#Springfield#IL#62701#555-0100#John Doe#555-0101
+Best Supplies#456 Oak Ave#Portland#OR#97201#555-0200#Jane Smith#555-0201
+Quality Goods#789 Elm Blvd#Austin#TX#73301#555-0300#Bob Wilson#555-0301

@@ -15,8 +15,13 @@
  */
 package com.sleepycat.berkeley.spring.boot;
 
+import com.sleepycat.persist.model.Entity;
+import com.sleepycat.persist.model.PrimaryKey;
+
+@Entity
 public class Vendor {
 
+	@PrimaryKey
 	protected String vendorName;
 	protected String address;
 	protected String city;

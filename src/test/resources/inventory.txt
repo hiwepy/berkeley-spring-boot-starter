@@ -1,0 +1,4 @@
+Apples#apple-001#1.50#100#fruits#Acme Corp
+Oranges#orange-001#2.00#200#fruits#Best Supplies
+Bananas#banana-001#0.75#300#fruits#Acme Corp
+Carrots#carrot-001#1.25#150#vegetables#Quality Goods

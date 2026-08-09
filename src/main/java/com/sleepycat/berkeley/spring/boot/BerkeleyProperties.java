@@ -15,7 +15,6 @@
  */
 package com.sleepycat.berkeley.spring.boot;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import com.sleepycat.je.DatabaseConfig;
@@ -30,7 +29,6 @@ import com.sleepycat.je.DatabaseConfig;
  * @since 1.0.0
  */
 @ConfigurationProperties(BerkeleyProperties.PREFIX)
-@Data
 public class BerkeleyProperties extends DatabaseConfig  {
 
 	/** Configuration property prefix for Berkeley DB options. */
@@ -46,5 +44,45 @@ public class BerkeleyProperties extends DatabaseConfig  {
 	private String databaseName = "tt";
 	/** Name of the class catalog database. */
 	private String catalogDatabaseName = "tt";
+
+	public String getHomeDir() {
+		return homeDir;
+	}
+
+	public void setHomeDir(String homeDir) {
+		this.homeDir = homeDir;
+	}
+
+	public String getEnvHome() {
+		return envHome;
+	}
+
+	public void setEnvHome(String envHome) {
+		this.envHome = envHome;
+	}
+
+	public String getEnvDir() {
+		return envDir;
+	}
+
+	public void setEnvDir(String envDir) {
+		this.envDir = envDir;
+	}
+
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public void setDatabaseName(String databaseName) {
+		this.databaseName = databaseName;
+	}
+
+	public String getCatalogDatabaseName() {
+		return catalogDatabaseName;
+	}
+
+	public void setCatalogDatabaseName(String catalogDatabaseName) {
+		this.catalogDatabaseName = catalogDatabaseName;
+	}
 
 }

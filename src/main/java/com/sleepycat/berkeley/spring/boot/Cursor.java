@@ -186,9 +186,9 @@ public class Cursor {
      * Closes the cursor, database and environment, releasing all held resources.
      */
     public void closeDatabase(){
-        if(myCursor != null) {                
-            myCursor.close();     
-        }  
+        if(myCursor != null) {
+            myCursor.close();
+        }
 
         if(myDatabase != null)
             myDatabase.close();
@@ -197,24 +197,6 @@ public class Cursor {
             myDbEnvironment.cleanLog();
             myDbEnvironment.close();
         }
-    }
-
-
-    /**
-     * Runs a small end-to-end demonstration of the cursor operations.
-     * @param args command-line arguments, ignored
-     * @throws UnsupportedEncodingException if the UTF-8 encoding is not available
-     */
-    public static void main(String[] args) throws UnsupportedEncodingException{
-        Cursor cursor = new Cursor();
-        cursor.configEnvironment();
-        cursor.createDatabase();
-        cursor.addDataByCursor("a", "www.baidu.com");
-        cursor.searchByCursor("a", "www.baidu.com");
-        cursor.changeCursor("a");
-        cursor.searchByCursor("a", "www.baike.com");
-        cursor.deleteDataByCursor("a");
-        cursor.closeDatabase();
     }
 
 }
