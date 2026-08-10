@@ -29,7 +29,7 @@ import com.sleepycat.je.rep.ReplicationConfig;
  * keys may be duplicated and values may be of arbitrary type; the underlying storage is
  * implemented with B+ trees or similar algorithms.</p>
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @Configuration

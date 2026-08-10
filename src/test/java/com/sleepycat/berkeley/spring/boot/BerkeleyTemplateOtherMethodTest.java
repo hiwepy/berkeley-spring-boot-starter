@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Additional tests for {@link BerkeleyTemplate} to cover otherMethod and edge cases.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 class BerkeleyTemplateOtherMethodTest {

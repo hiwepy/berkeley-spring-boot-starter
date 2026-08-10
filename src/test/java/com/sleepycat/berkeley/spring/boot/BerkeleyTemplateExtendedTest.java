@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Extended tests for {@link BerkeleyTemplate} to maximize coverage.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 class BerkeleyTemplateExtendedTest {

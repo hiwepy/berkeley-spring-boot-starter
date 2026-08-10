@@ -15,7 +15,7 @@ import com.sleepycat.je.OperationStatus;
  * Standalone example demonstrating common Berkeley DB cursor operations such as
  * iterating, searching, adding, deleting and updating records through a cursor.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class Cursor {

@@ -22,7 +22,7 @@ import com.sleepycat.je.TransactionConfig;
  * Template simplifying common Berkeley DB (JE) key/value operations such as writing,
  * reading, deleting and iterating records within a managed environment.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class BerkeleyTemplate {

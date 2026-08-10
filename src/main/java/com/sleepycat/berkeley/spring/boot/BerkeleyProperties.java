@@ -25,7 +25,7 @@ import com.sleepycat.je.DatabaseConfig;
  * <p>Extends {@link DatabaseConfig} so that database-level options inherit directly
  * from the bound configuration.</p>
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @ConfigurationProperties(BerkeleyProperties.PREFIX)

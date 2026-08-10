@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Coverage-focused tests for {@link Cursor}.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 class CursorCoverageTest {

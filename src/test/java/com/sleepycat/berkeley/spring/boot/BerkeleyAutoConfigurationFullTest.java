@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * Comprehensive unit tests for {@link BerkeleyAutoConfiguration}.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 class BerkeleyAutoConfigurationFullTest {

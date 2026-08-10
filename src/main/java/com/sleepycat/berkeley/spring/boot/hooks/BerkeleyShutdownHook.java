@@ -8,7 +8,7 @@ import com.sleepycat.je.Environment;
  * JVM shutdown hook that cleanly closes the Berkeley DB database, class catalog and
  * environment when the application exits.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class BerkeleyShutdownHook extends Thread{
