@@ -45,42 +45,92 @@ public class BerkeleyProperties extends DatabaseConfig  {
 	/** Name of the class catalog database. */
 	private String catalogDatabaseName = "tt";
 
+	/**
+	 * Returns the home dir.
+	 *
+	 * @return the home dir
+	 */
 	public String getHomeDir() {
 		return homeDir;
 	}
 
+	/**
+	 * Sets the home dir.
+	 *
+	 * @param homeDir the home dir
+	 */
 	public void setHomeDir(String homeDir) {
 		this.homeDir = homeDir;
 	}
 
+	/**
+	 * Returns the env home.
+	 *
+	 * @return the env home
+	 */
 	public String getEnvHome() {
 		return envHome;
 	}
 
+	/**
+	 * Sets the env home.
+	 *
+	 * @param envHome the env home
+	 */
 	public void setEnvHome(String envHome) {
 		this.envHome = envHome;
 	}
 
+	/**
+	 * Returns the env dir.
+	 *
+	 * @return the env dir
+	 */
 	public String getEnvDir() {
 		return envDir;
 	}
 
+	/**
+	 * Sets the env dir.
+	 *
+	 * @param envDir the env dir
+	 */
 	public void setEnvDir(String envDir) {
 		this.envDir = envDir;
 	}
 
+	/**
+	 * Returns the database name.
+	 *
+	 * @return the database name
+	 */
 	public String getDatabaseName() {
 		return databaseName;
 	}
 
+	/**
+	 * Sets the database name.
+	 *
+	 * @param databaseName the database name
+	 */
 	public void setDatabaseName(String databaseName) {
 		this.databaseName = databaseName;
 	}
 
+	/**
+	 * Returns the catalog database name.
+	 *
+	 * @return the catalog database name
+	 */
 	public String getCatalogDatabaseName() {
 		return catalogDatabaseName;
 	}
 
+	/**
+	 * Sets the catalog database name.
+	 *
+	 * @param catalogDatabaseName the catalog database name
+	 */
 	public void setCatalogDatabaseName(String catalogDatabaseName) {
 		this.catalogDatabaseName = catalogDatabaseName;
 	}
